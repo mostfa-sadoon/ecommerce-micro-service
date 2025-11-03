@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://wallet_db:3306/ecommerce-wallets?useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+    password: ''
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+  rabbitmq:
+      host: rabbitmq
+      port: 5672
+      username: guest
+      password: guest
+      deserialization:
+        trust:
+          all: true
+
+
+  application:
+    name: wallet
+
