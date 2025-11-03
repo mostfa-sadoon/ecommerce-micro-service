@@ -33,7 +33,7 @@ public class OrderService {
   OrderProduce orderProduce;
 
   @Transactional
-  public  void save(ReqOrderDto dto){
+  public  Order save(ReqOrderDto dto){
       Order orderentity  = orderMapper.dtoToOrderEntity(dto);
       Order order =  orderRepository.save(orderentity);
       List<Long> products_id = new ArrayList<Long>();
@@ -57,5 +57,6 @@ public class OrderService {
       message.setCounts(counts);
       message.setOrder_id(order.getId());
       orderProduce.addOrder(message);
+      return  order;
   }
 }
