@@ -19,12 +19,13 @@ public class RabbitMQConfig {
 
     // 🧾 Exchange
     public static final String ORDER_EXCHANGE = "orders.exchange";
-
-    // 🧾 Routing key
-    public static final String ORDER_CREATED_ROUTING_KEY = "order.created";
+    //  send from order to wallet to chcek wallet
     public static final String ORDER_CREATED_WALLET_QUEUE = "order_created_wallet_queue";
-
+    public static final String ORDER_CREATED_ROUTING_KEY = "order.created";
+    //  recive from product to order to if no stock
     public static final String PRODUCT_VALIDATED_ORDER_QUEUE = "product_validated_product_queue";
+    // recive from wallet to order to cancel order if balance didn't enough
+    public static final String WALLET_VALIDATED_ORDER_QUEUE = "wallet_validated_order_queue";
 
 
     public RabbitMQConfig() {
@@ -44,25 +45,14 @@ public class RabbitMQConfig {
         return new TopicExchange(ORDER_EXCHANGE, true, false);
     }
 
-//    // Create Product Queue
-//    @Bean
-//    public Queue orderCreatedProductQueue() {
-//        return new Queue(ORDER_CREATED_PRODUCT_QUEUE, true);
-//    }
+
+
 
     // Create Wallet Queue
     @Bean
-    public Queue orderCreatedWalletQueue() {
+    public Queue orderValiedWalletQueue() {
         return new Queue(ORDER_CREATED_WALLET_QUEUE, true);
     }
-
-    // Bind Product Queue to Exchange
-//    @Bean
-//    public Binding orderCreatedProductBinding(Queue orderCreatedProductQueue, TopicExchange orderExchange) {
-//        return BindingBuilder.bind(orderCreatedProductQueue)
-//                .to(orderExchange)
-//                .with(ORDER_CREATED_ROUTING_KEY);
-//    }
 
     // Bind Wallet Queue to Exchange
     @Bean
@@ -71,6 +61,8 @@ public class RabbitMQConfig {
                 .to(orderExchange)
                 .with(ORDER_CREATED_ROUTING_KEY);
     }
+
+
 
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {

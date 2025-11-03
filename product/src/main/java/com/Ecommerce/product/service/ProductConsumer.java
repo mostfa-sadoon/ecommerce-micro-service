@@ -19,7 +19,7 @@ public class ProductConsumer {
     ProductProducer productProducer;
 
     @RabbitListener(queues = RabbitMQConfig.WALLET_VALIDATED_PRODUCT_QUEUE)
-    public  void asdWallet(OrderValidationMessage message){
+    public  void checkStock(OrderValidationMessage message){
         System.out.println("sss");
         Boolean product_valied = true;
         for (int i = 0; i < message.getProduct_ids().size(); i++) {
@@ -30,7 +30,7 @@ public class ProductConsumer {
                 System.out.println("fail");
                 message.setProduct_valied(false);
                 product_valied = false;
-                productProducer.walletBalanceValidated(message);
+                productProducer.productValidateOrder(message);
             }
         }
         if (product_valied.booleanValue()==true){
@@ -44,7 +44,8 @@ public class ProductConsumer {
                 productServiceInterface.save(productentity);
             }
             message.setProduct_valied(true);
-            productProducer.walletBalanceValidated(message);
+            productProducer.productValidateOrder(message);
+            productProducer.productValidateWallet(message);
         }
         // Simulate delay (optional)
         try { Thread.sleep(150); } catch (InterruptedException e) { e.printStackTrace(); }

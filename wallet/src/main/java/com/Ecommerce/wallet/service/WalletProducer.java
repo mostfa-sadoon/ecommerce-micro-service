@@ -14,12 +14,20 @@ public class WalletProducer {
     public WalletProducer(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
-
+    // send to product
     public void walletBalanceValidated(OrderValidationMessage message)
     {
         rabbitTemplate.convertAndSend(
                 RabbitMQConfig.WALLET_EXCHANGE,
                 RabbitMQConfig.WALLET_VALIDATED_ROUTING_KEY,
+                message
+        );
+    }
+    // send to order
+    public  void walletBalanceNotValidated(OrderValidationMessage message){
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.WALLET_EXCHANGE,
+                RabbitMQConfig.WALLET_VALIDATED_ORDER_ROUTING_KEY,
                 message
         );
     }

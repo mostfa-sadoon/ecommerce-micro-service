@@ -13,22 +13,27 @@ import org.springframework.amqp.support.converter.MessageConverter;
 
 @Configuration
 public class RabbitMQConfig {
-    public static final String USER_QUEUE = "user_queue";
-    public static final String ORDER_CREATED_WALLET_QUEUE = "order_created_wallet_queue";
-
-    public static final String WALLET_VALIDATED_PRODUCT_QUEUE = "wallet_validated_product_queue";
+    // wallet echange
     public static final String WALLET_EXCHANGE = "wallet_exchange";
-    public static final String WALLET_VALIDATED_ROUTING_KEY = "wallet.validated";
 
+    // send from wallet to product to check stock
+    public static final String WALLET_VALIDATED_PRODUCT_QUEUE = "wallet_validated_product_queue";
+    public static final String WALLET_VALIDATED_ROUTING_KEY = "wallet.validated";
+    // send from wallet to order if not enough balance
+    public static final String WALLET_VALIDATED_ORDER_QUEUE = "wallet_validated_order_queue";
+    public static final String WALLET_VALIDATED_ORDER_ROUTING_KEY = "wallet.validated.order";
+
+
+    // reciveing from order to check balance
+    public static final String ORDER_CREATED_WALLET_QUEUE = "order_created_wallet_queue";
+    // recive from product to update balannce
+    public static final String PRODUCT_VALIED_Wallet_QUEUE = "product_valied_wallet_queue";
+    // recive from user to check balance
+    public static final String USER_QUEUE = "user_queue";
 
     public RabbitMQConfig() {
         // 👇 This will appear in your Docker logs if the config is loaded
         System.out.println("🚀 RabbitMQConfig loaded inside Docker container!");
-    }
-
-    @Bean
-    public Queue walletValidateQueue(){
-        return  new Queue(WALLET_VALIDATED_PRODUCT_QUEUE,true);
     }
 
     @Bean
@@ -37,10 +42,29 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding userBinding(){
+    public Queue walletValidateQueue(){
+        return  new Queue(WALLET_VALIDATED_PRODUCT_QUEUE,true);
+    }
+
+    @Bean
+    public Queue walletValidateOrderQueue(){
+        return  new Queue(WALLET_VALIDATED_ORDER_QUEUE,true);
+    }
+
+
+
+    @Bean
+    public Binding walletProductBinding(){
         return BindingBuilder.bind(walletValidateQueue())
                 .to(walletExchange())
                 .with(WALLET_VALIDATED_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding walletOrderBinding(){
+        return BindingBuilder.bind(walletValidateOrderQueue())
+                .to(walletExchange())
+                .with(WALLET_VALIDATED_ORDER_ROUTING_KEY);
     }
 
 

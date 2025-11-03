@@ -12,30 +12,23 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class OrderConsumer {
+public class ProductConsumer {
 
     @Autowired
     WalletRepository walletRepository;
 
-    @Autowired
-    WalletProducer walletProducer;
-
-    @RabbitListener(queues = RabbitMQConfig.ORDER_CREATED_WALLET_QUEUE)
-    public void checkBalance(OrderValidationMessage message){
+    @RabbitListener(queues = RabbitMQConfig.PRODUCT_VALIED_Wallet_QUEUE)
+    public void changeBalance(OrderValidationMessage message){
         System.out.println("Received message: " + message);
         Optional<Wallet> wallet = walletRepository.findByUserId(message.getUser_id());
         if(wallet.isPresent()){
-
-            if (wallet.get().getBalance() > message.getPrice()) {
-                System.out.println("✅ Balance is sufficient");
-                walletProducer.walletBalanceValidated(message);
-            } else {
-                System.out.println("❌ Insufficient balance");
-                message.setWallet_valied(false);
-                walletProducer.walletBalanceNotValidated(message);
-            }
-
+            Wallet walletEntity = wallet.get();
+            walletEntity.setBalance(walletEntity.getBalance()-message.getPrice());
+            walletRepository.save(walletEntity);
+            System.out.println("wallet updated successfully");
         }
     }
+
+
 
 }

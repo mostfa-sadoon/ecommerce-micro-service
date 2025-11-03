@@ -14,7 +14,7 @@ public class WalletConsumer {
   WalletRepository walletRepository;
 
     @RabbitListener(queues = RabbitMQConfig.USER_QUEUE)
-    public  void asdWallet(Long user_id){
+    public  void addWallet(Long user_id){
         System.out.println(" user id is "+ user_id);
         Wallet wallet = Wallet.builder()
                 .userId(user_id)

@@ -15,6 +15,7 @@ public class OrderValidationMessage {
     List<Integer> counts;
     Integer    price;
     Long       user_id;
-    Boolean       product_valied;
-    Long          order_id;
+    Boolean    product_valied = true;
+    Long       order_id;
+    Boolean    wallet_valied = true;
 }

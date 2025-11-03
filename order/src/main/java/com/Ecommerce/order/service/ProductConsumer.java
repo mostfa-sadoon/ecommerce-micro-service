@@ -17,7 +17,7 @@ public class ProductConsumer {
     OrderRepository orderRepository;
 
     @RabbitListener(queues = RabbitMQConfig.PRODUCT_VALIDATED_ORDER_QUEUE)
-    public void checkBalance(OrderValidationMessage message){
+    public void changeStatus(OrderValidationMessage message){
        if(message.getProduct_valied().booleanValue() == true){
            Order orderentity = orderRepository.findById(message.getOrder_id()).get();
            orderentity.setStatus(Order.Status.valueOf("PROCCESS"));

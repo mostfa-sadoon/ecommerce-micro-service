@@ -14,7 +14,7 @@ public class ProductProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void walletBalanceValidated(OrderValidationMessage message)
+    public void productValidateOrder(OrderValidationMessage message)
     {
         rabbitTemplate.convertAndSend(
                 RabbitMQConfig.PRODUCT_EXCHANGE,
@@ -22,5 +22,14 @@ public class ProductProducer {
                 message
         );
     }
+
+    public void productValidateWallet(OrderValidationMessage message){
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.PRODUCT_EXCHANGE,
+                RabbitMQConfig.PRODUCT_VALIED_wallet_ROUTING_KEY,
+                message
+        );
+    }
+
 
 }
