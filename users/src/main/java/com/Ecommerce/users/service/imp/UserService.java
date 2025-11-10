@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -34,6 +35,9 @@ public class UserService implements UserServiceInterface {
 
     public UserResDto findUser(Long  id){
         Optional<User> user =  userRepositoryInterface.findById(id);
+        if(!user.isPresent()){
+            throw new NoSuchElementException("User Not found");
+        }
        return UserResDto.builder().username(user.get().getUsername())
                 .email(user.get().getEmail())
                 .name(user.get().getName())
