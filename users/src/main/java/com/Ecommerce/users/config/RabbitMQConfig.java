@@ -21,7 +21,7 @@ public class RabbitMQConfig {
 
     public RabbitMQConfig() {
         // 👇 This will appear in your Docker logs if the config is loaded
-        System.out.println("🚀 RabbitMQConfig loaded inside Docker container!");
+        System.out.println("RabbitMQConfig loaded inside Docker container!");
     }
 
     @Bean

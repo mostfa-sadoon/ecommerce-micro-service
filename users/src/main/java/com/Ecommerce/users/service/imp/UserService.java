@@ -32,8 +32,12 @@ public class UserService implements UserServiceInterface {
     @Autowired
     JwtUtil jwtUtil;
 
-    public Optional<User> findUser(Long  id){
-        return userRepositoryInterface.findById(id);
+    public UserResDto findUser(Long  id){
+        Optional<User> user =  userRepositoryInterface.findById(id);
+       return UserResDto.builder().username(user.get().getUsername())
+                .email(user.get().getEmail())
+                .name(user.get().getName())
+                .build();
     }
 
     public UserResDto save(UserReqDto dto){

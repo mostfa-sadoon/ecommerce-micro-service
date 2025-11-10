@@ -28,10 +28,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<Token>> login(@RequestBody LoginRequest dto){
+
+        System.out.println("user name,"+dto.getUsername() + " - " + dto.getPassword());
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(dto.getUserName(),dto.getPassword())
+                new UsernamePasswordAuthenticationToken(dto.getUsername(),dto.getPassword())
         );
-        String token = jwtUtil.generateToken(dto.getUserName());
+        String token = jwtUtil.generateToken(dto.getUsername());
         Token jwtTokwn = new Token();
         jwtTokwn.token = token;
             ApiResponse<Token>  response = new ApiResponse<Token>(

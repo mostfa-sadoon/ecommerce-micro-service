@@ -13,7 +13,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
     public  static  final String secret_key      = "ThisIsASecretKeyForJWTGenerationChangeIt";
-    public  static  final Integer expiration_time  = 3600;
+    public  static  final Integer expiration_time= 60 * 60 * 3600;
 
     private Key getSigningKey() {
         return  Keys.hmacShaKeyFor(secret_key.getBytes());

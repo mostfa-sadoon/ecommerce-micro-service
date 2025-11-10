@@ -8,6 +8,6 @@ import com.Ecommerce.users.model.entity.User;
 import java.util.Optional;
 
 public interface UserServiceInterface {
-    Optional<User> findUser(Long  id);
+    UserResDto findUser(Long  id);
     UserResDto save(UserReqDto dto);
 }

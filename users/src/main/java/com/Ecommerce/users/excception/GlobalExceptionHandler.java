@@ -1,8 +1,12 @@
 package com.Ecommerce.users.excception;
 
 
+import com.Ecommerce.users.util.ApiResponse;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -37,4 +41,10 @@ public class GlobalExceptionHandler {
 
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiResponse<String>> handleBadCredentials(BadCredentialsException ex) {
+        ApiResponse<String> response = new ApiResponse<>("Invalid username or password", null);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
 }

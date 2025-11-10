@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Data
 public class UserMapper {
 
-    User dtoToEntity(UserReqDto dto){
+   public User dtoToEntity(UserReqDto dto){
         return  User.builder().username(dto.getUsername())
                 .email(dto.getEmail())
                 .password(dto.getPassword())
@@ -18,7 +18,7 @@ public class UserMapper {
                 .build();
     }
 
-    UserResDto EntityToResDto(User entity){
+  public   UserResDto EntityToResDto(User entity){
         return UserResDto.builder()
                 .username(entity.getUsername())
                 .email(entity.getEmail())
