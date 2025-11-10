@@ -23,7 +23,7 @@ public class UserController {
         return userService.findUser(id);
     }
 
-    @PostMapping("/save")
+    @PostMapping("/register")
     public UserResDto createUser(@RequestBody UserReqDto user) {
         return userService.save(user);
     }

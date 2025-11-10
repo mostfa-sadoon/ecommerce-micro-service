@@ -14,4 +14,5 @@ public class UserResDto {
     private String name;
     private String email;
     private String username;
+    private String token;
 }
